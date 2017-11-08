@@ -4,6 +4,17 @@ const app = express();
 const bodyParser = require("body-parser");
 var PORT = process.env.PORT || 8080; // default port 8080
 
+// Generating random alphanumeric string of length 6
+function generateRandomString() {
+    const length = 6;
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var result = '';
+    for (let i = length; i > 0; --i) {
+    	result += chars[Math.floor(Math.random() * chars.length)];
+    } 
+    return result;
+}
+
 app.use(bodyParser.urlencoded({extended: true})); // To parse the form data 
 
 app.set("view engine", "ejs"); // to use the ejs templates in app
@@ -15,7 +26,6 @@ var urlDatabase = {
 
 // Home Page @ 127.0.0.1/
 // Add a rendered Home page (better looking obviously) later
-
 // Will add a form eventually to home page to look up fo rurl and shorten it
 app.get("/", (req, res) => {
   res.end("<html><body>Hello <b>World</b></body></html>\n");
