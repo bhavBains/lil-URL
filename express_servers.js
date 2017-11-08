@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: true})); // To parse the form data
 
 app.set("view engine", "ejs"); // to use the ejs templates in app
 
-var urlDatabase = {
+const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
@@ -51,7 +51,11 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars)
 });
 
-
+app.post("/urls/:id/delete", (req,res) =>{
+  let id = req.params.id;
+  delete urlDatabase[id];
+  res.redirect("/urls");
+})
 
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
