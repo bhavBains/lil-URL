@@ -7,7 +7,7 @@ var PORT = process.env.PORT || 8080; // default port 8080
 // Generating random alphanumeric string of length 6
 function generateRandomString() {
     const length = 6;
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
     var result = '';
     for (let i = length; i > 0; --i) {
     	result += chars[Math.floor(Math.random() * chars.length)];
@@ -39,6 +39,11 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars)
 });
 
+//new page NEW and renders the urls_new page
+app.get("/urls/new", (req, res) => {
+  res.render("urls_new");
+});
+
 // Takes to new page when we clicked the button from /urls page
 app.get("/urls/:id", (req, res) => {
 	let shortURL = req.params.id;
@@ -47,14 +52,11 @@ app.get("/urls/:id", (req, res) => {
 });
 
 
-//new page NEW and renders the urls_new page
-app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
-});
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);  // debug statement to see POST parameters
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  const shortURL = generateRandomString();
+  urlDatabase[shortURL] = req.body.longURL;
+  res.redirect('/urls/' + shortURL);
 });
 
 app.listen(PORT, () => {
