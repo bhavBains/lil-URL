@@ -15,6 +15,7 @@ var urlDatabase = {
 
 // Home Page @ 127.0.0.1/
 // Add a rendered Home page (better looking obviously) later
+
 // Will add a form eventually to home page to look up fo rurl and shorten it
 app.get("/", (req, res) => {
   res.end("<html><body>Hello <b>World</b></body></html>\n");
