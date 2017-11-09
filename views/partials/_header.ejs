@@ -1,1 +1,16 @@
-<header> </header>
+<header> 
+	<% if(username) { %>
+	<h1>Logged in as <%= username%></h1>
+		<!-- LOGOUT FORM -->
+		<form method="POST" action="/logout">
+			<input type="submit" name="logout" value="logout">
+		</form>
+		<% } else {%>
+		<!-- LOGIN FORM -->
+	<form method="POST" action="/login">
+		<label for="username">Enter a Username:</label>
+		<input type="text" id="uname" name="username">
+		<input type="submit" name="uname" value="submit">
+	</form>
+	<% } %>
+</header>

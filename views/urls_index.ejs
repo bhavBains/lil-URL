@@ -5,17 +5,19 @@
 </head>
 <body>
 	<% include ./partials/_header.ejs%>
-<!--   <pre><%= JSON.stringify(urls) %></pre>   -->
+
     <ul><% for( var url in urls){%>
     	<li>
-    		<%= url%> ---> <%= urls[url]%>
-    		<form method="POST" action="/urls/9sm5xK/delete"><input type="submit" value="DELETE">
-    </form></form>
-
+    		<a href="/urls/<%=url%>"><%= url%></a>---- <%= urls[url]%>
+    		<form method="POST" action="/urls/<%= url%>/delete">
+    			<input type="submit" value="DELETE">
+    		</form>
     	</li>
-		<% } %>     
-     </ul>
+
+			<% } %>
+
+    </ul>
      <a href="#">click to short</a>
 
 </body>
-</html
+</html>
