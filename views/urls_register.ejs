@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head></head>
+  <head>
+  	<title>TinyApp-Register</title>
+  </head>
   <body style="font-size:20px; padding:50px;">
+  // missing header here//
 	
     <form action="/urls/register" method="POST" style="margin:100px; padding: 50px">
       <label for="email" style="font-weight: 40px; padding-bottom: 50px">Register Here:</label>
       <input id="email" type="email" name="email" placeholder="enter your email" style="width: 300px">
       <input id="password" type="password" name="password" placeholder="password" style="width: 300px">      
       <input type="submit" value="Submit">
+      <% if(locals.error){ %>
+		<p style="color: tomato;"><%= error %></p>
+	<% } %>
     </form>
+
+   
   </body>
 </html>

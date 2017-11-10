@@ -28,7 +28,37 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+// Database for USERS
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
 
+function emailTaken(email){
+  // Check to see if email is taken
+  for(let key in users){
+    if(users[key].email === email)
+      return true;
+  }
+  return false;
+}
+
+function findUser(email){
+  // To find user-id from database
+  for (let key in users) {
+    if (users[key].email === email) {
+      return users[key];
+    }
+  }
+}
 
 // Home Page @ 127.0.0.1/
 // Add a rendered Home page (better looking obviously) later
@@ -40,30 +70,77 @@ app.get("/", (req, res) => {
 // URLs page--> takes to urls_index page: to view list of urls
 // And a click button to shorten the url
 app.get("/urls", (req, res) => {
-	let templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+	const user = users[req.cookies["user_id"]];
+  let templateVars = { urls: urlDatabase, user: user };
   res.render("urls_index", templateVars)
 });
 
 // Registraion Page- GET and POST
 app.get("/urls/register", (req, res) =>{
-  let templateVars = { username : req.cookies["username"]};
+  const user = users[req.cookies["user_id"]];
+  let templateVars = { urls: users, user: user };
   res.render("urls_register", templateVars);
 });
 
 app.post("/urls/register", (req,res)=>{
-  res.redirect("/urls/register")
+  const email = req.body.email;
+  const password = req.body.password;
+  if (!(email && password) && !password && !email) {
+    res.status(400).render('urls_register', {error: 'Email or Password Missing'});
+  } else if(emailTaken(email)){
+    res.status(400).render('urls_register', {error: 'Email Taken'});
+  } else {
+    const user_id = generateRandomString();
+    let user = {
+      "id": user_id,
+      "email": email,
+      "password": password
+    };
+    users[user_id] = user;
+    res.cookie("user_id", user_id);
+    res.redirect("/urls/");
+  }
+});
+
+// LOGIN Page GET and POST
+app.get("/urls/login", (req, res) =>{
+  res.render("urls_login");
+});
+
+app.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const user = findUser(email);
+  if (user) {
+    if (user.password == password){
+      
+      res.cookie("user_id", user.id); // Set up the cookie here
+      res.redirect("/urls");
+    } else{
+      res.status(403).render("urls_login", {error: 'Incorrect Password'});
+    }
+  } else {
+    res.status(403).render("urls_login", {error: 'Incorrect email'});
+  }
+});
+
+app.post("/logout", (req, res) =>{
+  res.clearCookie("user_id");
+  res.redirect("/urls");
 });
 
 //new page NEW and renders the urls_new page
 app.get("/urls/new", (req, res) => {
-  let templateVars = { username : req.cookies["username"]};
+  const user = users[req.cookies["user_id"]];
+  let templateVars = { user: user};
   res.render("urls_new", templateVars);
 });
 
 // Takes to new page when we clicked the button from /urls page
 app.get("/urls/:id", (req, res) => {
-	let shortURL = req.params.id;
-	let templateVars = { username: req.cookies["username"], shortURL: shortURL, longURL: urlDatabase[shortURL] };
+	const user = users[req.cookies["user_id"]];
+  let shortURL = req.params.id;
+	let templateVars = { user: user, shortURL: shortURL, longURL: urlDatabase[shortURL] };
   res.render("urls_show", templateVars)
 });
 
@@ -80,17 +157,6 @@ app.post("/urls/:id/update", (req,res) =>{
   res.redirect("/urls");
 });
 
-app.post("/login", (req, res) => {
-  const username = req.body.username;
-  res.cookie("username", username);
-  res.redirect("/urls");
-});
-
-app.post("/logout", (req, res) =>{
-  res.clearCookie("username");
-  res.redirect("/urls");
-});
-
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = req.body.longURL;
@@ -98,5 +164,5 @@ app.post("/urls", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
+  console.log(`lISTENING on port ${PORT}!`);
 });

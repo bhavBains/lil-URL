@@ -1,18 +1,30 @@
-<div class="logout">
-<header> 
-	<% if(username) { %>
-	<h1>Logged in as <%= username%></h1>
+
+<div class="header">
+	<header> 
+	<% if(user) { %>
+		<p>Welcome  <%=  user.email%></p>
 		<!-- LOGOUT FORM -->
 		<form method="POST" action="/logout">
 			<input type="submit" name="logout" value="logout">
 		</form>
-		<% } else {%>
-		<!-- LOGIN FORM -->
-	<form method="POST" action="/login">
-		<label for="username">Enter a Username:</label>
-		<input type="text" id="uname" name="username">
-		<input type="submit" name="uname" value="submit">
-	</form>
+	<% } else {%>
+
+	<!-- LOGIN FORM --> 
+		<form method="POST" action="/login">
+			<p><a href="/urls/register">REGISTER</a><a href="/urls/login">LOGIN</a></p>
+		</form>
+
 	<% } %>
-</header>
+	
+	</header>
 </div>
+
+
+
+
+
+
+
+	
+
+		
