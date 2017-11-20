@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>TinyApp</title>
-</head>
-<body style="display: inline-block; margin: 0px auto; text-align: center;">
+	<head>
+	  <title>TinyApp</title>
+	</head>
+	<body >
+		<% if(!user) { %>
+			<p><img src="image.png"></p>
+	    <h1>TINY APP YO</h1>
+	    <form method="POST" action="/login">
+	      <p><strong><a href="/register">REGISTER</a>       <a href="/login">LOGIN</a></strong></p>
 
-	<% include partials/_header %>
+	      <% if(locals.error){ %>
+	      <p style="color: red; font-weight: 50px;padding: 50px"><%= error %></p>
+	      <% } %>
+	    </form> 
+	  <% } else { %>
 
-    <ul><% for( var url in urls){%>
-    	<li>
-    		<a href="/urls/<%=url%>"><%= url%></a>---- <%= urls[url]%>
-    		<form method="POST" action="/urls/<%= url%>/delete">
-    			<input type="submit" value="DELETE">
-    		</form>
-    	</li>
+	  <% include partials/_header %>
+	    <ul><% for( var url in urls){%>
+	    	<li>
+	    		<p><%= url%> : <%= urls[url].longURL%></p>
+	    		<a href="/urls/<%=url%>"><button>UPDATE</button></a>
+	    		<form method="POST" action="/urls/<%= url%>/delete">
+	    			<input type="submit" value="DELETE" style="display: inline;">
+	    		</form>
+	    	</li>
 
 			<% } %>
 
     </ul>
-     <a href="#">click to short</a>
+
+    <form action="/urls" method="POST">
+      <label for="longURL">Enter a URL:</label>
+      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+      <input type="submit" value="Submit">
+    </form>
+
+    <% } %>
+     
 
 </body>
 </html>

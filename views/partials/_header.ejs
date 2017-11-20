@@ -1,20 +1,20 @@
 
-<div class="header">
+<div class="header" style="padding: 20px; margin: 20px;">
 	<header> 
-	<% if(user) { %>
-		<p>Welcome  <%=  user.email%></p>
-		<!-- LOGOUT FORM -->
-		<form method="POST" action="/logout">
-			<input type="submit" name="logout" value="logout">
-		</form>
-	<% } else {%>
+		<% if(user) { %>
+			<p>Welcome  <%=  user.email%></p>
+			<!-- LOGOUT FORM -->
+			<form method="POST" action="/logout">
+				<input type="submit" name="logout" value="logout">
+			</form>
+		<% } else {%>
 
 	<!-- LOGIN FORM --> 
 		<form method="POST" action="/login">
-			<p><a href="/urls/register">REGISTER</a><a href="/urls/login">LOGIN</a></p>
+			<p><strong><a href="/urls/register">REGISTER</a>  <a href="/urls/login">LOGIN</a></strong></p>
 		</form>
 
-	<% } %>
+		<% } %>
 	
 	</header>
 </div>
