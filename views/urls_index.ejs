@@ -5,7 +5,6 @@
 	</head>
 	<body >
 		<% if(!user) { %>
-			<p><img src="image.png"></p>
 	    <h1>TINY APP YO</h1>
 	    <form method="POST" action="/login">
 	      <p><strong><a href="/register">REGISTER</a>       <a href="/login">LOGIN</a></strong></p>
@@ -19,7 +18,7 @@
 	  <% include partials/_header %>
 	    <ul><% for( var url in urls){%>
 	    	<li>
-	    		<p><%= url%> : <%= urls[url].longURL%></p>
+	    		<p><a href="/u/<%= url%>"><%= url%></a>  : <%= urls[url].longURL%></p>
 	    		<a href="/urls/<%=url%>"><button>UPDATE</button></a>
 	    		<form method="POST" action="/urls/<%= url%>/delete">
 	    			<input type="submit" value="DELETE" style="display: inline;">

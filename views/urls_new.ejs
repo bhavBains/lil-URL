@@ -2,12 +2,15 @@
 <html lang="en">
   <head></head>
   <body style="font-size:20px; padding:50px;">
-	<% include partials/_header %> 
+    <% include ./partials/_header.ejs%>
     
     <form action="/urls" method="POST">
       <label for="longURL">Enter a URL:</label>
       <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
       <input type="submit" value="Submit">
+      <% if(locals.error){ %>
+	      <p style="color: red; font-weight: 50px;padding: 50px"><%= error %></p>
+	      <% } %>
     </form>
   </body>
 </html>

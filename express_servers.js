@@ -39,7 +39,7 @@ const users = {
  "user2": {
     id: "user2", 
     email: "user2@example.com", 
-    password: "1"
+    password: "$2a$10$oSu2J5MJBHiznaiCr7Y9C.vLsVbLnj4XMj4BeLcAMCwsMLfpmX5aq"
     
   }
 };
@@ -167,12 +167,17 @@ app.get("/urls/:id", (req, res) => {
 	const user = users[req.session["user_id"]];
   if (user) {
     let shortURL = req.params.id;
-    console.log(shortURL);
     let templateVars = { user: user, shortURL: shortURL, longURL: urlDatabase[shortURL].longURL };
     res.render("urls_show", templateVars)  
   } else {
       res.status(401).render("urls_index", {error: 'You must be logged IN'}).redirect("/urls");
   }
+});
+
+// Takes to actual long link that a short link refers to
+app.get("/u/:id", (req, res) => {
+  let longURL = urlDatabase[req.params.id];
+  res.redirect(longURL.longURL);
 });
 
 // Delete an ULR
@@ -193,17 +198,18 @@ app.post("/urls/:id/delete", (req,res) => {
 });
 
 // Update an existing url link
-app.post("/urls/:id/update", (req,res) =>{
+app.post("/urls/:id", (req,res) =>{
   const userId = req.session.user_id;
   let id = req.params.id;
   let urlObject = urlDatabase[id];
+  
   if (userId && users[userId]) {
     if (userId === urlObject.userId){
       let longURL = req.body.update_longURL;
       urlDatabase[id].longURL = longURL;
       res.redirect("/urls");
     } else {
-      res.status(400).render("urls_index", {error: 'You must be logged IN'}).redirect("/urls");
+      res.render("urls_new",{user: users[userId], error: 'You are not the owner of this URL'});
     }
   } else {
       res.status(400).render("urls_index", {error: 'You must be logged IN'}).redirect("/urls");
