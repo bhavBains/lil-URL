@@ -1,4 +1,4 @@
-# TinyApp
+# Lil-URL
 
 
 A full stack web app built with Node and Express that allows users to shorten long URLs.
@@ -6,7 +6,7 @@ A full stack web app built with Node and Express that allows users to shorten lo
 ## User Stories
 
 
-TinyApp is solving some basic problems a regular user to twitter might face. 
+Lil-URL is solving some basic problems a regular user to twitter might face. 
 	-As an avid twitter poster, 
 	I want to be able to shorten links 
 	so that I can fit more non-link text in my tweets.
@@ -19,7 +19,7 @@ TinyApp is solving some basic problems a regular user to twitter might face.
 	I want to be able to see how many times my subscribers visit my links 
 	so that I can learn what content they like.
 
-TinyApp simply provides a six-character long link to any given URL.
+Lil-URL simply provides a six-character long link to any given URL.
 
 ## Dependencies
 
